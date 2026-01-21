@@ -21,6 +21,7 @@ add_library(
     source/HttpRequest.cpp
     source/socket_wrappers/server_raii.cpp
     source/socket_wrappers/client_raii.cpp
+    source/HttpResponse.cpp
 )
 
 target_include_directories(
