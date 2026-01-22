@@ -3,13 +3,26 @@
 #include "socket_wrappers/client_raii.hpp"
 #include "HttpRequest.hpp"
 #include "HttpResponse.hpp"
+#include "Router.hpp"
 
-const int MAX_REQUEST_SIZE = 1024 * 1024;
+constexpr int MAX_REQUEST_SIZE = 1024 * 1024;
+
+void add_routes(Router& router) {
+	router.add_route("GET", "/", [](const HttpRequest& request){
+		return HttpResponse::Builder()
+			.status_code(200)
+			.headers("Content-Type", "text/html")
+			.body("<h1>Hello World!</h1>")
+			.build();
+	});
+}
 
 auto main() -> int
 {
 	try {
 		ServerSocket server;
+		Router router;
+		add_routes(router);
 		while (true) {
 			struct sockaddr_in client_address;
         	socklen_t client_len = sizeof(client_address);
@@ -37,7 +50,7 @@ auto main() -> int
 			}
 			
 			HttpRequest http_request(request);
-			HttpResponse response = HttpResponse::Builder().status_code(200).body("Hello World").build();
+			HttpResponse response = router.route(http_request);
 			std::string response_str = response.to_string();
 			send(client.get_fd(), response_str.c_str(), response_str.size(), 0);
 		}
