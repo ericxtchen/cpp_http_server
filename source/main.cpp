@@ -37,6 +37,9 @@ auto main() -> int
 			}
 			
 			HttpRequest http_request(request);
+			HttpResponse response = HttpResponse::Builder().status_code(200).body("Hello World").build();
+			std::string response_str = response.to_string();
+			send(client.get_fd(), response_str.c_str(), response_str.size(), 0);
 		}
 
 	} catch (const std::exception& e) {

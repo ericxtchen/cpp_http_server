@@ -17,7 +17,6 @@ include(cmake/variables.cmake)
 
 add_library(
     cpp_http_server_lib OBJECT
-    source/lib.cpp
     source/HttpRequest.cpp
     source/socket_wrappers/server_raii.cpp
     source/socket_wrappers/client_raii.cpp

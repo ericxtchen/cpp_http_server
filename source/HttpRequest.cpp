@@ -1,5 +1,4 @@
 #include "HttpRequest.hpp"
-#include <ranges>
 
 HttpRequest::HttpRequest(const std::string& request) {
     parse(request);
